@@ -161,7 +161,7 @@ export default function FreeTierHub() {
         <input type="hidden" name="receiver" value="31498383" />
         <input type="hidden" name="return_url" value="https://supaviewtv.co.za/return" />
         <input type="hidden" name="cancel_url" value="https://supaviewtv.co.za/cancel" />
-        <input type="hidden" name="notify_url" value="https://supaviewtv.co.za/notify" />
+        <input type="hidden" name="notify_url" value="https://ktaimgprslmzwygvgpmf.supabase.co/functions/v1/payfast-itn" />
         <input type="hidden" name="amount" value="299" />
         <input type="hidden" name="item_name" value="SUPAView Subscription" />
         <input type="hidden" name="custom_quantity" value="1" />
