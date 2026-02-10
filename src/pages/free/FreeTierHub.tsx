@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -7,8 +7,6 @@ import {
   Sparkles, Video, Wifi, Store, BarChart3, Home, LogIn,
   BookOpen, HelpCircle, Settings2, ShoppingCart
 } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
 import { FreeTierOverview } from "@/components/free-tier/FreeTierOverview";
 import { FreeTierFreeEmbed } from "@/components/free-tier/FreeTierFreeEmbed";
 import { FreeTierLiveStream } from "@/components/free-tier/FreeTierLiveStream";
@@ -48,43 +46,11 @@ const TAB_TO_SERVICE: Record<string, string> = {
 export default function FreeTierHub() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("overview");
-  const [upgradeLoading, setUpgradeLoading] = useState(false);
+  const payFastFormRef = useRef<HTMLFormElement>(null);
 
-  const handleUpgrade = async () => {
-    setUpgradeLoading(true);
-    try {
-      const { data: { user: authUser } } = await supabase.auth.getUser();
-      if (!authUser) {
-        navigate("/signin");
-        return;
-      }
-      const { data, error } = await supabase.functions.invoke("create-payfast-payment", {
-        body: {
-          email: authUser.email,
-          return_url: `${window.location.origin}/pricing?status=success`,
-          cancel_url: `${window.location.origin}/pricing?status=cancelled`,
-        },
-      });
-      if (error) throw error;
-      const form = document.createElement("form");
-      form.method = "POST";
-      form.action = data.payfast_url;
-      for (const [key, value] of Object.entries(data.payment_data)) {
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = key;
-        input.value = value as string;
-        form.appendChild(input);
-      }
-      document.body.appendChild(form);
-      form.submit();
-    } catch (error: any) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
-    } finally {
-      setUpgradeLoading(false);
-    }
+  const handleBuyNow = () => {
+    payFastFormRef.current?.submit();
   };
 
   return (
@@ -107,11 +73,10 @@ export default function FreeTierHub() {
                 variant="default"
                 size="sm"
                 className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white"
-                onClick={handleUpgrade}
-                disabled={upgradeLoading}
+                onClick={handleBuyNow}
               >
                 <ShoppingCart className="h-4 w-4 mr-2" />
-                {upgradeLoading ? "Processing..." : "Buy Embed Pro"}
+                Buy Embed Pro
               </Button>
               <Button variant="ghost" size="sm" onClick={() => navigate("/")}>
                 <Home className="h-4 w-4 mr-2" />
@@ -184,6 +149,23 @@ export default function FreeTierHub() {
         {activeTab === "help-support" && <FreeTierHelpSupport />}
         {activeTab === "compare-plans" && <FreeTierComparePlans />}
       </div>
+
+      {/* Hidden PayFast form */}
+      <form
+        ref={payFastFormRef}
+        action="https://payment.payfast.io/eng/process"
+        method="post"
+        className="hidden"
+      >
+        <input type="hidden" name="cmd" value="_paynow" />
+        <input type="hidden" name="receiver" value="31498383" />
+        <input type="hidden" name="return_url" value="https://supaviewtv.co.za/return" />
+        <input type="hidden" name="cancel_url" value="https://supaviewtv.co.za/cancel" />
+        <input type="hidden" name="notify_url" value="https://supaviewtv.co.za/notify" />
+        <input type="hidden" name="amount" value="299" />
+        <input type="hidden" name="item_name" value="SUPAView Subscription" />
+        <input type="hidden" name="custom_quantity" value="1" />
+      </form>
     </div>
   );
 }
