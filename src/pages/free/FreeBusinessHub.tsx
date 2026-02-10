@@ -32,7 +32,7 @@ import { toast } from "sonner";
 
 export default function FreeBusinessHub() {
   const navigate = useNavigate();
-  const { profile, isDemoMode, logout } = useAuth();
+  const { profile, isDemoMode, signOut } = useAuth();
   const [activeTab, setActiveTab] = useState("dashboard");
   const [businessId, setBusinessId] = useState<string | null>(null);
   const [helpOpen, setHelpOpen] = useState(false);
@@ -63,7 +63,7 @@ export default function FreeBusinessHub() {
   const renderContent = () => {
     switch (activeTab) {
       case "dashboard":
-        return <GettingStartedHub onNavigate={setActiveTab} />;
+        return <GettingStartedHub hasLogo={false} hasContactDetails={false} hasProducts={false} storeLink="" onTabChange={setActiveTab} />;
       case "products":
         return <ProductsManager businessId={businessId} demoMode={isDemoMode} />;
       case "discounts":
@@ -89,7 +89,7 @@ export default function FreeBusinessHub() {
           </div>
         );
       default:
-        return <GettingStartedHub onNavigate={setActiveTab} />;
+        return <GettingStartedHub hasLogo={false} hasContactDetails={false} hasProducts={false} storeLink="" onTabChange={setActiveTab} />;
     }
   };
 
@@ -130,7 +130,7 @@ export default function FreeBusinessHub() {
             <ArrowLeft className="h-4 w-4" />
             Back to Free Tier
           </Button>
-          <Button variant="ghost" className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground" onClick={() => logout()}>
+          <Button variant="ghost" className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground" onClick={() => signOut()}>
             <LogOut className="h-4 w-4" />
             Sign Out
           </Button>
