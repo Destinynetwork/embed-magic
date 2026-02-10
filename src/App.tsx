@@ -12,6 +12,8 @@ import SignUp from "./pages/SignUp";
 import Pricing from "./pages/Pricing";
 import DemoPage from "./pages/DemoPage";
 import Dashboard from "./pages/Dashboard";
+import EmbedPro from "./pages/EmbedPro";
+import EmbedProHub from "./pages/EmbedProHub";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +33,8 @@ const App = () => (
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/demo" element={<DemoPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/embed-pro" element={<EmbedPro />} />
+            <Route path="/embed-pro-hub" element={<EmbedProHub />} />
             <Route path="/admin" element={<RequireAuth><RequireAdmin><Dashboard /></RequireAdmin></RequireAuth>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
