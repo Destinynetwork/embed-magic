@@ -61,11 +61,14 @@ export function FreeTierOverview({ onTabChange }: FreeTierOverviewProps) {
           business management, we're here to empower your digital presence.
         </p>
         <div className="flex items-center gap-4">
-          <Button className="gap-2 bg-emerald-600 hover:bg-emerald-700 text-white">
-            <Sparkles className="h-4 w-4" />
-            Browse Creators
+          <Button
+            className="gap-2 bg-emerald-600 hover:bg-emerald-700 text-white"
+            onClick={() => onTabChange("free-embed")}
+          >
+            <Video className="h-4 w-4" />
+            Get Started
           </Button>
-          <Button variant="ghost" className="text-muted-foreground hover:text-foreground">
+          <Button variant="ghost" className="text-muted-foreground hover:text-foreground" onClick={() => onTabChange("compare-plans")}>
             Learn More
           </Button>
         </div>
