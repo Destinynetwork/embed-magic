@@ -2,7 +2,10 @@ import { Check, Sparkles, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useState, useEffect } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const features = [
   "Unlimited embeds",
@@ -18,6 +21,60 @@ const features = [
 
 const Pricing = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const status = searchParams.get("status");
+    if (status === "success") {
+      toast({ title: "Payment successful!", description: "Welcome to EMBED Pro." });
+    } else if (status === "cancelled") {
+      toast({ title: "Payment cancelled", description: "You can try again anytime.", variant: "destructive" });
+    }
+  }, [searchParams]);
+
+  const handleBuyNow = async () => {
+    setLoading(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) {
+        navigate("/signin");
+        return;
+      }
+
+      const { data, error } = await supabase.functions.invoke("create-payfast-payment", {
+        body: {
+          email: user.email,
+          return_url: `${window.location.origin}/pricing?status=success`,
+          cancel_url: `${window.location.origin}/pricing?status=cancelled`,
+        },
+      });
+
+      if (error) throw error;
+
+      // Create a form and submit it to PayFast
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = data.payfast_url;
+
+      for (const [key, value] of Object.entries(data.payment_data)) {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = key;
+        input.value = value as string;
+        form.appendChild(input);
+      }
+
+      document.body.appendChild(form);
+      form.submit();
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -56,9 +113,9 @@ const Pricing = () => {
 
             {/* CTA */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="hero" size="xl" onClick={() => navigate("/signin")}>
+              <Button variant="hero" size="xl" onClick={handleBuyNow} disabled={loading}>
                 <ShoppingCart className="w-5 h-5" />
-                Start 7-Day Free Trial
+                {loading ? "Processing..." : "Start 7-Day Free Trial"}
               </Button>
               <Button variant="hero-outline" size="xl" onClick={() => navigate("/demo")}>
                 Try Demo First
@@ -66,7 +123,7 @@ const Pricing = () => {
             </div>
 
             <p className="mt-6 text-sm text-muted-foreground">
-              Cancel anytime • No commitment • Full access during trial
+              Powered by PayFast • Cancel anytime • Full access during trial
             </p>
           </div>
         </div>
