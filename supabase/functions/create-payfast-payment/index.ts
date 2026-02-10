@@ -8,6 +8,29 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+// PayFast whitelisted IP range: 197.97.145.144/28 (197.97.145.144 - 197.97.145.159)
+const PAYFAST_IP_START = 197 * 256 ** 3 + 97 * 256 ** 2 + 145 * 256 + 144; // 197.97.145.144
+const PAYFAST_IP_END = PAYFAST_IP_START + 15; // 197.97.145.159
+
+function ipToNumber(ip: string): number {
+  const parts = ip.split(".").map(Number);
+  return parts[0] * 256 ** 3 + parts[1] * 256 ** 2 + parts[2] * 256 + parts[3];
+}
+
+function isPayFastIP(ip: string): boolean {
+  const num = ipToNumber(ip);
+  return num >= PAYFAST_IP_START && num <= PAYFAST_IP_END;
+}
+
+function getClientIP(req: Request): string {
+  return (
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    req.headers.get("x-real-ip") ||
+    req.headers.get("cf-connecting-ip") ||
+    ""
+  );
+}
+
 async function generateSignature(data: Record<string, string>, passphrase: string): Promise<string> {
   // Build param string: sort keys, exclude empty values, URL-encode values with + for spaces
   const params = Object.keys(data)
