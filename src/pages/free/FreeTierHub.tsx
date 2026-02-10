@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   Sparkles, Video, Wifi, Store, BarChart3, Home, LogIn,
-  BookOpen, HelpCircle, Settings2
+  BookOpen, HelpCircle, Settings2, ShoppingCart
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import { FreeTierOverview } from "@/components/free-tier/FreeTierOverview";
 import { FreeTierFreeEmbed } from "@/components/free-tier/FreeTierFreeEmbed";
 import { FreeTierLiveStream } from "@/components/free-tier/FreeTierLiveStream";
@@ -46,7 +48,44 @@ const TAB_TO_SERVICE: Record<string, string> = {
 export default function FreeTierHub() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("overview");
+  const [upgradeLoading, setUpgradeLoading] = useState(false);
+
+  const handleUpgrade = async () => {
+    setUpgradeLoading(true);
+    try {
+      const { data: { user: authUser } } = await supabase.auth.getUser();
+      if (!authUser) {
+        navigate("/signin");
+        return;
+      }
+      const { data, error } = await supabase.functions.invoke("create-payfast-payment", {
+        body: {
+          email: authUser.email,
+          return_url: `${window.location.origin}/pricing?status=success`,
+          cancel_url: `${window.location.origin}/pricing?status=cancelled`,
+        },
+      });
+      if (error) throw error;
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = data.payfast_url;
+      for (const [key, value] of Object.entries(data.payment_data)) {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = key;
+        input.value = value as string;
+        form.appendChild(input);
+      }
+      document.body.appendChild(form);
+      form.submit();
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setUpgradeLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -64,6 +103,16 @@ export default function FreeTierHub() {
               </div>
             </div>
             <div className="flex items-center gap-3">
+              <Button
+                variant="default"
+                size="sm"
+                className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white"
+                onClick={handleUpgrade}
+                disabled={upgradeLoading}
+              >
+                <ShoppingCart className="h-4 w-4 mr-2" />
+                {upgradeLoading ? "Processing..." : "Buy Embed Pro"}
+              </Button>
               <Button variant="ghost" size="sm" onClick={() => navigate("/")}>
                 <Home className="h-4 w-4 mr-2" />
                 Home
