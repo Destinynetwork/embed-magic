@@ -35,7 +35,7 @@ const SignIn = () => {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         toast({ title: "Welcome back!" });
-        navigate("/demo");
+        navigate("/dashboard");
       }
     } catch (error: any) {
       toast({
