@@ -1,15 +1,11 @@
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BarChart3 } from "lucide-react";
 import { toast } from "sonner";
 
 export function FreeTierCreatorDashboard() {
-  const navigate = useNavigate();
-
   const handleLaunch = () => {
-    toast.info("Creator Dashboard is launching...");
-    navigate("/free/creator-dashboard");
+    toast.info("Creator Dashboard is being built. Events, earnings, payouts and CRM features are coming soon.");
   };
 
   return (
