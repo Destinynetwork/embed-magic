@@ -21,6 +21,8 @@ import EmbedProHub from "./pages/EmbedProHub";
 import FreeTierHub from "./pages/free/FreeTierHub";
 import FreeAddEmbed from "./pages/free/FreeAddEmbed";
 import FreeMyEmbeds from "./pages/free/FreeMyEmbeds";
+import FreeBusinessHub from "./pages/free/FreeBusinessHub";
+import FreeCreatorDashboard from "./pages/free/FreeCreatorDashboard";
 import ProDashboard from "./pages/pro/ProDashboard";
 import ProUploadVideo from "./pages/pro/ProUploadVideo";
 import ProMyAssets from "./pages/pro/ProMyAssets";
@@ -57,6 +59,8 @@ const App = () => (
             <Route path="/free" element={<FreeTierHub />} />
             <Route path="/free/add" element={<RequireFreeAuth><FreeAddEmbed /></RequireFreeAuth>} />
             <Route path="/free/embeds" element={<RequireFreeAuth><FreeMyEmbeds /></RequireFreeAuth>} />
+            <Route path="/free/business-hub" element={<RequireFreeAuth><FreeBusinessHub /></RequireFreeAuth>} />
+            <Route path="/free/creator-dashboard" element={<RequireFreeAuth><FreeCreatorDashboard /></RequireFreeAuth>} />
             {/* Pro tier routes */}
             <Route path="/pro" element={<RequirePro><ProDashboard /></RequirePro>} />
             <Route path="/pro/upload" element={<RequirePro><ProUploadVideo /></RequirePro>} />
