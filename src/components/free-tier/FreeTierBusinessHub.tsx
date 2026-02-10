@@ -1,16 +1,11 @@
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Store } from "lucide-react";
 import { toast } from "sonner";
 
 export function FreeTierBusinessHub() {
-  const navigate = useNavigate();
-
   const handleLaunch = () => {
-    toast.info("Business Hub is launching...");
-    // Navigate to a future route — for now show feedback
-    navigate("/free/business-hub");
+    toast.info("Business Hub is being built. The full dashboard with Products, Orders, Shipping, and more is coming soon.");
   };
 
   return (
