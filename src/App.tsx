@@ -1,3 +1,4 @@
+import React, { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -8,12 +9,9 @@ import { RequireAuth } from "@/components/auth/RequireAuth";
 import { RequireAdmin } from "@/components/auth/RequireAdmin";
 import { RequireFreeAuth } from "@/components/auth/RequireFreeAuth";
 import { RequirePro } from "@/components/auth/RequirePro";
+import { Loader2 } from "lucide-react";
 import Index from "./pages/Index";
 import SignIn from "./pages/SignIn";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminFreeEmbeds from "./pages/admin/AdminFreeEmbeds";
-import AdminProAssets from "./pages/admin/AdminProAssets";
-import AdminUsers from "./pages/admin/AdminUsers";
 import SignUp from "./pages/SignUp";
 import Pricing from "./pages/Pricing";
 import DemoPage from "./pages/DemoPage";
@@ -28,6 +26,14 @@ import ProUploadVideo from "./pages/pro/ProUploadVideo";
 import ProMyAssets from "./pages/pro/ProMyAssets";
 import Upgrade from "./pages/Upgrade";
 import NotFound from "./pages/NotFound";
+
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const AdminFreeEmbeds = lazy(() => import("./pages/admin/AdminFreeEmbeds"));
+const AdminProAssets = lazy(() => import("./pages/admin/AdminProAssets"));
+const AdminUsers = lazy(() => import("./pages/admin/AdminUsers"));
+
+const Fallback = () => <div className="flex items-center justify-center min-h-screen"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>;
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -57,11 +63,11 @@ const App = () => (
             <Route path="/pro/assets" element={<RequirePro><ProMyAssets /></RequirePro>} />
             {/* Upgrade page */}
             <Route path="/upgrade" element={<Upgrade />} />
-            <Route path="/admin" element={<RequireAuth><RequireAdmin><AdminDashboard /></RequireAdmin></RequireAuth>} />
-            <Route path="/admin/dashboard" element={<RequireAuth><RequireAdmin><AdminDashboard /></RequireAdmin></RequireAuth>} />
-            <Route path="/admin/free-embeds" element={<RequireAuth><RequireAdmin><AdminFreeEmbeds /></RequireAdmin></RequireAuth>} />
-            <Route path="/admin/pro-assets" element={<RequireAuth><RequireAdmin><AdminProAssets /></RequireAdmin></RequireAuth>} />
-            <Route path="/admin/users" element={<RequireAuth><RequireAdmin><AdminUsers /></RequireAdmin></RequireAuth>} />
+            <Route path="/admin" element={<RequireAuth><RequireAdmin><Suspense fallback={<Fallback />}><AdminDashboard /></Suspense></RequireAdmin></RequireAuth>} />
+            <Route path="/admin/dashboard" element={<RequireAuth><RequireAdmin><Suspense fallback={<Fallback />}><AdminDashboard /></Suspense></RequireAdmin></RequireAuth>} />
+            <Route path="/admin/free-embeds" element={<RequireAuth><RequireAdmin><Suspense fallback={<Fallback />}><AdminFreeEmbeds /></Suspense></RequireAdmin></RequireAuth>} />
+            <Route path="/admin/pro-assets" element={<RequireAuth><RequireAdmin><Suspense fallback={<Fallback />}><AdminProAssets /></Suspense></RequireAdmin></RequireAuth>} />
+            <Route path="/admin/users" element={<RequireAuth><RequireAdmin><Suspense fallback={<Fallback />}><AdminUsers /></Suspense></RequireAdmin></RequireAuth>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
