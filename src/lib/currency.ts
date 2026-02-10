@@ -197,3 +197,10 @@ export const getCurrencySymbol = (): string => {
 export const isLocalUser = (): boolean => {
   return detectUserCountry() === "ZA";
 };
+
+/**
+ * Format currency amount (alias for formatPrice)
+ */
+export const formatCurrency = (amount: number, decimals: number = 0): string => {
+  return `R${amount.toFixed(decimals)}`;
+};
