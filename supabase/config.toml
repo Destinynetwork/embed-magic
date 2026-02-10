@@ -17,3 +17,9 @@ verify_jwt = false
 
 [functions.admin-control]
 verify_jwt = false
+
+[functions.payfast-itn]
+verify_jwt = false
+
+[functions.create-payfast-payment]
+verify_jwt = false
