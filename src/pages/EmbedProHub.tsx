@@ -5,16 +5,26 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, User } from "lucide-react";
 
 export default function EmbedProHub() {
-  const { profile } = useAuth();
+  const { profile, user, loading } = useAuth();
   const navigate = useNavigate();
 
-  if (!profile) {
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!profile && !user) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <p className="text-muted-foreground">Please log in to access Embed Hub</p>
       </div>
     );
   }
+
+  const profileId = profile?.id || user?.id || "";
 
   return (
     <div className="min-h-screen bg-background">
@@ -27,7 +37,7 @@ export default function EmbedProHub() {
             <User className="h-4 w-4 mr-2" />Profile
           </Button>
         </div>
-        <EmbedProMyHub profileId={profile.id} />
+        <EmbedProMyHub profileId={profileId} />
       </div>
     </div>
   );
