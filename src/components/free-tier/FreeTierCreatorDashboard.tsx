@@ -1,8 +1,17 @@
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { BarChart3, Play } from "lucide-react";
+import { BarChart3 } from "lucide-react";
+import { toast } from "sonner";
 
 export function FreeTierCreatorDashboard() {
+  const navigate = useNavigate();
+
+  const handleLaunch = () => {
+    toast.info("Creator Dashboard is launching...");
+    navigate("/free/creator-dashboard");
+  };
+
   return (
     <Card className="border-cyan-500/20 bg-gradient-to-br from-cyan-900/10 to-cyan-800/5">
       <CardContent className="p-8">
@@ -46,7 +55,7 @@ export function FreeTierCreatorDashboard() {
           </div>
         </div>
 
-        <Button className="gap-2 bg-cyan-600 hover:bg-cyan-700 text-white">
+        <Button onClick={handleLaunch} className="gap-2 bg-cyan-600 hover:bg-cyan-700 text-white">
           <BarChart3 className="h-4 w-4" />
           Launch Creator Dashboard
         </Button>

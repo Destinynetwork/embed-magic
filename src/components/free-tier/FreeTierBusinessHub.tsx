@@ -1,10 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Store, Play } from "lucide-react";
+import { Store } from "lucide-react";
+import { toast } from "sonner";
 
 export function FreeTierBusinessHub() {
   const navigate = useNavigate();
+
+  const handleLaunch = () => {
+    toast.info("Business Hub is launching...");
+    // Navigate to a future route — for now show feedback
+    navigate("/free/business-hub");
+  };
 
   return (
     <Card className="border-emerald-500/20 bg-gradient-to-br from-emerald-900/10 to-emerald-800/5">
@@ -49,7 +56,7 @@ export function FreeTierBusinessHub() {
           </div>
         </div>
 
-        <Button className="gap-2 bg-emerald-600 hover:bg-emerald-700 text-white">
+        <Button onClick={handleLaunch} className="gap-2 bg-emerald-600 hover:bg-emerald-700 text-white">
           <Store className="h-4 w-4" />
           Launch Business Hub
         </Button>
