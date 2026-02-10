@@ -15,13 +15,10 @@ function unauthorized() {
 
 function verifyServiceToken(req: Request): boolean {
   const secret = Deno.env.get("ADMIN_SERVICE_SECRET");
-  const adminToken = req.headers.get("x-admin-token");
-  const auth = req.headers.get("authorization") || "";
-  console.log("SECRET first5:", secret?.substring(0, 5), "last5:", secret?.substring((secret?.length || 0) - 5));
-  console.log("TOKEN first5:", adminToken?.substring(0, 5), "last5:", adminToken?.substring((adminToken?.length || 0) - 5));
-  console.log("Match:", adminToken === secret);
   if (!secret) return false;
+  const adminToken = req.headers.get("x-admin-token");
   if (adminToken === secret) return true;
+  const auth = req.headers.get("authorization") || "";
   return auth === `Bearer ${secret}`;
 }
 
