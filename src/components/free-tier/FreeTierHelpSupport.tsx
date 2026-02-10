@@ -1,15 +1,26 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { HelpCircle } from "lucide-react";
 
 export function FreeTierHelpSupport() {
   return (
-    <Card className="border-border/50">
-      <CardContent className="p-8 text-center">
-        <HelpCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-        <h3 className="text-xl font-bold text-foreground mb-2">Help & Support</h3>
-        <p className="text-muted-foreground max-w-md mx-auto">
-          Need help? Our support team is here to assist you with any questions about the Free Tier services.
-        </p>
+    <Card className="border-cyan-500/20 bg-gradient-to-r from-cyan-900/10 to-cyan-800/5">
+      <CardContent className="p-6">
+        <div className="flex items-center justify-between flex-wrap gap-4">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center">
+              <HelpCircle className="h-6 w-6 text-cyan-400" />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-foreground">Need Help with Free Tier?</h2>
+              <p className="text-sm text-muted-foreground">Guides for embedding, streaming, monetization & more</p>
+            </div>
+          </div>
+          <Button className="gap-2 bg-cyan-600 hover:bg-cyan-700 text-white">
+            <HelpCircle className="h-4 w-4" />
+            Open Help Center
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
