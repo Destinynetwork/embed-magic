@@ -1,9 +1,19 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-// PayFast whitelisted IP range: 197.97.145.144/28 (197.97.145.144 - 197.97.145.159)
-const PAYFAST_IP_START = 197 * 256 ** 3 + 97 * 256 ** 2 + 145 * 256 + 144;
-const PAYFAST_IP_END = PAYFAST_IP_START + 15;
+// PayFast whitelisted IP ranges
+const PAYFAST_RANGES: Array<[number, number]> = [
+  // 197.97.145.144/28 (197.97.145.144 - 197.97.145.159)
+  [197 * 256 ** 3 + 97 * 256 ** 2 + 145 * 256 + 144, 197 * 256 ** 3 + 97 * 256 ** 2 + 145 * 256 + 159],
+  // 41.74.179.192/27 (41.74.179.192 - 41.74.179.223)
+  [41 * 256 ** 3 + 74 * 256 ** 2 + 179 * 256 + 192, 41 * 256 ** 3 + 74 * 256 ** 2 + 179 * 256 + 223],
+  // 102.216.36.0/28 (102.216.36.0 - 102.216.36.15)
+  [102 * 256 ** 3 + 216 * 256 ** 2 + 36 * 256 + 0, 102 * 256 ** 3 + 216 * 256 ** 2 + 36 * 256 + 15],
+  // 102.216.36.128/28 (102.216.36.128 - 102.216.36.143)
+  [102 * 256 ** 3 + 216 * 256 ** 2 + 36 * 256 + 128, 102 * 256 ** 3 + 216 * 256 ** 2 + 36 * 256 + 143],
+  // 144.126.193.139 (single IP)
+  [144 * 256 ** 3 + 126 * 256 ** 2 + 193 * 256 + 139, 144 * 256 ** 3 + 126 * 256 ** 2 + 193 * 256 + 139],
+];
 
 function ipToNumber(ip: string): number {
   const parts = ip.split(".").map(Number);
@@ -13,7 +23,7 @@ function ipToNumber(ip: string): number {
 function isPayFastIP(ip: string): boolean {
   if (!ip) return false;
   const num = ipToNumber(ip);
-  return num >= PAYFAST_IP_START && num <= PAYFAST_IP_END;
+  return PAYFAST_RANGES.some(([start, end]) => num >= start && num <= end);
 }
 
 function getClientIP(req: Request): string {
