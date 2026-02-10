@@ -1121,6 +1121,42 @@ export type Database = {
         }
         Relationships: []
       }
+      free_embed_records: {
+        Row: {
+          created_at: string
+          embed_code_raw: string | null
+          embed_html_sanitized: string | null
+          embed_url: string | null
+          id: string
+          provider: string
+          status: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          embed_code_raw?: string | null
+          embed_html_sanitized?: string | null
+          embed_url?: string | null
+          id?: string
+          provider: string
+          status?: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          embed_code_raw?: string | null
+          embed_html_sanitized?: string | null
+          embed_url?: string | null
+          id?: string
+          provider?: string
+          status?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       guest_preferences: {
         Row: {
           agreed_at: string | null
@@ -1237,6 +1273,51 @@ export type Database = {
           thumbnail_url?: string | null
           total_duration_seconds?: number | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      pro_managed_assets: {
+        Row: {
+          cdn_provider: string
+          created_at: string
+          duration_seconds: number | null
+          external_asset_id: string | null
+          id: string
+          metadata_json: Json | null
+          playback_url: string | null
+          status: string
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cdn_provider?: string
+          created_at?: string
+          duration_seconds?: number | null
+          external_asset_id?: string | null
+          id?: string
+          metadata_json?: Json | null
+          playback_url?: string | null
+          status?: string
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cdn_provider?: string
+          created_at?: string
+          duration_seconds?: number | null
+          external_asset_id?: string | null
+          id?: string
+          metadata_json?: Json | null
+          playback_url?: string | null
+          status?: string
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
