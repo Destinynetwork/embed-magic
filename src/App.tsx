@@ -10,6 +10,10 @@ import { RequireFreeAuth } from "@/components/auth/RequireFreeAuth";
 import { RequirePro } from "@/components/auth/RequirePro";
 import Index from "./pages/Index";
 import SignIn from "./pages/SignIn";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminFreeEmbeds from "./pages/admin/AdminFreeEmbeds";
+import AdminProAssets from "./pages/admin/AdminProAssets";
+import AdminUsers from "./pages/admin/AdminUsers";
 import SignUp from "./pages/SignUp";
 import Pricing from "./pages/Pricing";
 import DemoPage from "./pages/DemoPage";
@@ -53,7 +57,11 @@ const App = () => (
             <Route path="/pro/assets" element={<RequirePro><ProMyAssets /></RequirePro>} />
             {/* Upgrade page */}
             <Route path="/upgrade" element={<Upgrade />} />
-            <Route path="/admin" element={<RequireAuth><RequireAdmin><Dashboard /></RequireAdmin></RequireAuth>} />
+            <Route path="/admin" element={<RequireAuth><RequireAdmin><AdminDashboard /></RequireAdmin></RequireAuth>} />
+            <Route path="/admin/dashboard" element={<RequireAuth><RequireAdmin><AdminDashboard /></RequireAdmin></RequireAuth>} />
+            <Route path="/admin/free-embeds" element={<RequireAuth><RequireAdmin><AdminFreeEmbeds /></RequireAdmin></RequireAuth>} />
+            <Route path="/admin/pro-assets" element={<RequireAuth><RequireAdmin><AdminProAssets /></RequireAdmin></RequireAuth>} />
+            <Route path="/admin/users" element={<RequireAuth><RequireAdmin><AdminUsers /></RequireAdmin></RequireAuth>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
