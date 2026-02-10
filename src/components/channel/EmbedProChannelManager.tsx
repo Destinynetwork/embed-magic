@@ -32,7 +32,7 @@ import {
   ChevronRight,
   Layers,
 } from "lucide-react";
-import { EmbedProChannelContentPicker } from "./EmbedProChannelContentPicker";
+import { FreeEmbedChannelContentPicker as EmbedProChannelContentPicker } from "./EmbedProChannelContentPicker";
 import { EmbedProSubChannelContentList } from "./EmbedProSubChannelContentList";
 
 interface EmbedProChannelManagerProps {

@@ -377,7 +377,10 @@ export function QuickTemplatesGuide({ profileId, onChannelCreated }: QuickTempla
           onOpenChange={setWizardOpen}
           profileId={profileId}
           template={{
+            id: selectedTemplate.id,
             name: selectedTemplate.name,
+            description: selectedTemplate.description,
+            steps: selectedTemplate.steps,
             category: selectedTemplate.category || "video",
             tier: selectedTemplate.tier,
           }}
