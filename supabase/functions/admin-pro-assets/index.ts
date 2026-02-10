@@ -16,6 +16,8 @@ function unauthorized() {
 function verifyServiceToken(req: Request): boolean {
   const secret = Deno.env.get("ADMIN_SERVICE_SECRET");
   if (!secret) return false;
+  const adminToken = req.headers.get("x-admin-token");
+  if (adminToken === secret) return true;
   const auth = req.headers.get("authorization") || "";
   return auth === `Bearer ${secret}`;
 }
