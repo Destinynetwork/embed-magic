@@ -55,6 +55,9 @@ const Hero = () => {
             <Button variant="hero-outline" size="xl" onClick={() => navigate("/signin")}>
               Sign In
             </Button>
+            <Button variant="hero-outline" size="xl" onClick={() => navigate("/signup")}>
+              Sign Up
+            </Button>
             <button
               onClick={() => navigate("/demo")}
               className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors"
