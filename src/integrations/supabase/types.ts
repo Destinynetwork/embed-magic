@@ -104,6 +104,312 @@ export type Database = {
         }
         Relationships: []
       }
+      business_discount_codes: {
+        Row: {
+          business_id: string
+          code: string
+          created_at: string
+          discount_type: string | null
+          discount_value: number | null
+          expires_at: string | null
+          id: string
+          is_active: boolean | null
+          max_uses: number | null
+          uses_count: number | null
+        }
+        Insert: {
+          business_id: string
+          code: string
+          created_at?: string
+          discount_type?: string | null
+          discount_value?: number | null
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          max_uses?: number | null
+          uses_count?: number | null
+        }
+        Update: {
+          business_id?: string
+          code?: string
+          created_at?: string
+          discount_type?: string | null
+          discount_value?: number | null
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          max_uses?: number | null
+          uses_count?: number | null
+        }
+        Relationships: []
+      }
+      business_orders: {
+        Row: {
+          business_id: string
+          created_at: string
+          customer_email: string | null
+          customer_name: string | null
+          id: string
+          payment_status: string | null
+          status: string | null
+          total_amount: number | null
+          updated_at: string
+        }
+        Insert: {
+          business_id: string
+          created_at?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          id?: string
+          payment_status?: string | null
+          status?: string | null
+          total_amount?: number | null
+          updated_at?: string
+        }
+        Update: {
+          business_id?: string
+          created_at?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          id?: string
+          payment_status?: string | null
+          status?: string | null
+          total_amount?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      business_products: {
+        Row: {
+          base_price: number | null
+          business_id: string
+          created_at: string
+          customer_price: number | null
+          description: string | null
+          id: string
+          image_url: string | null
+          name: string
+          product_type: string | null
+          sku: string | null
+          status: string | null
+          stock: number | null
+          updated_at: string
+        }
+        Insert: {
+          base_price?: number | null
+          business_id: string
+          created_at?: string
+          customer_price?: number | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name: string
+          product_type?: string | null
+          sku?: string | null
+          status?: string | null
+          stock?: number | null
+          updated_at?: string
+        }
+        Update: {
+          base_price?: number | null
+          business_id?: string
+          created_at?: string
+          customer_price?: number | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          product_type?: string | null
+          sku?: string | null
+          status?: string | null
+          stock?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      business_shipping_companies: {
+        Row: {
+          business_id: string
+          contact_email: string | null
+          contact_phone: string | null
+          created_at: string
+          id: string
+          is_active: boolean | null
+          name: string
+          tracking_url: string | null
+        }
+        Insert: {
+          business_id: string
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          name: string
+          tracking_url?: string | null
+        }
+        Update: {
+          business_id?: string
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          tracking_url?: string | null
+        }
+        Relationships: []
+      }
+      business_store_settings: {
+        Row: {
+          business_id: string
+          created_at: string
+          email: string | null
+          id: string
+          latitude: string | null
+          longitude: string | null
+          phone: string | null
+          physical_address: string | null
+          policies_accepted: boolean | null
+          policies_accepted_at: string | null
+          privacy_policy: string | null
+          refund_policy: string | null
+          returns_policy: string | null
+          shipping_policy: string | null
+          terms_text: string | null
+          updated_at: string
+          vendor_id: string | null
+          whatsapp: string | null
+        }
+        Insert: {
+          business_id: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          latitude?: string | null
+          longitude?: string | null
+          phone?: string | null
+          physical_address?: string | null
+          policies_accepted?: boolean | null
+          policies_accepted_at?: string | null
+          privacy_policy?: string | null
+          refund_policy?: string | null
+          returns_policy?: string | null
+          shipping_policy?: string | null
+          terms_text?: string | null
+          updated_at?: string
+          vendor_id?: string | null
+          whatsapp?: string | null
+        }
+        Update: {
+          business_id?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          latitude?: string | null
+          longitude?: string | null
+          phone?: string | null
+          physical_address?: string | null
+          policies_accepted?: boolean | null
+          policies_accepted_at?: string | null
+          privacy_policy?: string | null
+          refund_policy?: string | null
+          returns_policy?: string | null
+          shipping_policy?: string | null
+          terms_text?: string | null
+          updated_at?: string
+          vendor_id?: string | null
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
+      business_support_tickets: {
+        Row: {
+          admin_response: string | null
+          business_id: string
+          created_at: string
+          customer_email: string | null
+          customer_name: string | null
+          id: string
+          message: string | null
+          priority: string | null
+          status: string | null
+          subject: string
+          updated_at: string
+        }
+        Insert: {
+          admin_response?: string | null
+          business_id: string
+          created_at?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          id?: string
+          message?: string | null
+          priority?: string | null
+          status?: string | null
+          subject: string
+          updated_at?: string
+        }
+        Update: {
+          admin_response?: string | null
+          business_id?: string
+          created_at?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          id?: string
+          message?: string | null
+          priority?: string | null
+          status?: string | null
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      business_waybills: {
+        Row: {
+          business_id: string
+          created_at: string
+          customer_address: string | null
+          customer_email: string | null
+          customer_name: string | null
+          id: string
+          notes: string | null
+          order_id: string | null
+          shipping_company_id: string | null
+          status: string | null
+          tracking_number: string | null
+          updated_at: string
+        }
+        Insert: {
+          business_id: string
+          created_at?: string
+          customer_address?: string | null
+          customer_email?: string | null
+          customer_name?: string | null
+          id?: string
+          notes?: string | null
+          order_id?: string | null
+          shipping_company_id?: string | null
+          status?: string | null
+          tracking_number?: string | null
+          updated_at?: string
+        }
+        Update: {
+          business_id?: string
+          created_at?: string
+          customer_address?: string | null
+          customer_email?: string | null
+          customer_name?: string | null
+          id?: string
+          notes?: string | null
+          order_id?: string | null
+          shipping_company_id?: string | null
+          status?: string | null
+          tracking_number?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       businesses: {
         Row: {
           address: string | null
