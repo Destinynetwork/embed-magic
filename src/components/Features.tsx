@@ -1,54 +1,62 @@
-import { Palette, Zap, BarChart3, Globe, Lock, Puzzle } from "lucide-react";
+import { Layers, Sparkles, Shield, Settings, Radio, BarChart3 } from "lucide-react";
+
+import featureMultiplatform from "@/assets/feature-multiplatform.jpg";
+import featureAiThumbnails from "@/assets/feature-ai-thumbnails.jpg";
+import featureProtection from "@/assets/feature-protection.jpg";
+import featureCustomization from "@/assets/feature-customization.jpg";
+import featureLivestream from "@/assets/feature-livestream.jpg";
+import featureAnalytics from "@/assets/feature-analytics.jpg";
 
 const features = [
   {
-    icon: Zap,
-    title: "Lightning Fast",
-    description: "Loads in under 50ms. Zero impact on your site's performance.",
+    icon: Layers,
+    title: "Multi-Platform Support",
+    description: "Embed from YouTube, Vimeo, Wistia, Dailymotion, Spotify, and more.",
+    image: featureMultiplatform,
   },
   {
-    icon: Palette,
-    title: "Fully Customizable",
-    description: "Match your brand perfectly with themes, colors, and custom CSS.",
+    icon: Sparkles,
+    title: "AI Thumbnail Generator",
+    description: "Create stunning thumbnails with AI—just describe what you want.",
+    image: featureAiThumbnails,
+  },
+  {
+    icon: Shield,
+    title: "Content Protection",
+    description: "Watermarks, password protection, and domain locking.",
+    image: featureProtection,
+  },
+  {
+    icon: Settings,
+    title: "Player Customization",
+    description: "Custom skins, colors, controls, and branding for your player.",
+    image: featureCustomization,
+  },
+  {
+    icon: Radio,
+    title: "Live Streaming",
+    description: "Stream live content with real-time viewer analytics.",
+    image: featureLivestream,
   },
   {
     icon: BarChart3,
-    title: "Built-in Analytics",
-    description: "Track impressions, clicks, and conversions in real-time.",
-  },
-  {
-    icon: Globe,
-    title: "Works Everywhere",
-    description: "Compatible with any website, CMS, or framework.",
-  },
-  {
-    icon: Lock,
-    title: "Privacy First",
-    description: "GDPR compliant. No cookies. Your data stays yours.",
-  },
-  {
-    icon: Puzzle,
-    title: "Easy Integration",
-    description: "One line of code. No dependencies. No build step required.",
+    title: "Analytics Dashboard",
+    description: "Track views, engagement, and performance metrics in real-time.",
+    image: featureAnalytics,
   },
 ];
 
 const Features = () => {
   return (
     <section id="features" className="py-24 relative">
-      {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/20 to-transparent" />
-      
+
       <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Everything you need to{" "}
-            <span className="text-gradient">embed like a pro</span>
+            Everything You Need for Professional Embedding
           </h2>
-          <p className="text-lg text-muted-foreground">
-            Powerful features designed for developers who care about user experience.
-          </p>
         </div>
 
         {/* Features Grid */}
@@ -56,22 +64,31 @@ const Features = () => {
           {features.map((feature, index) => (
             <div
               key={feature.title}
-              className="group relative p-6 rounded-2xl glass border-gradient hover:border-primary/30 transition-all duration-300"
+              className="group relative rounded-2xl overflow-hidden glass border-gradient hover:border-primary/30 transition-all duration-300"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              {/* Icon */}
-              <div className="w-12 h-12 rounded-xl bg-gradient-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                <feature.icon className="w-6 h-6 text-primary" />
+              {/* Image */}
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={feature.image}
+                  alt={feature.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
               </div>
 
               {/* Content */}
-              <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                {feature.description}
-              </p>
-
-              {/* Hover Glow */}
-              <div className="absolute inset-0 rounded-2xl bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+              <div className="p-5 relative">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-8 h-8 rounded-lg bg-primary/15 flex items-center justify-center">
+                    <feature.icon className="w-4 h-4 text-primary" />
+                  </div>
+                  <h3 className="text-lg font-semibold">{feature.title}</h3>
+                </div>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>
