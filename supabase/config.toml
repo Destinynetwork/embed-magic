@@ -23,3 +23,6 @@ verify_jwt = false
 
 [functions.create-payfast-payment]
 verify_jwt = false
+
+[functions.events-hub-proxy]
+verify_jwt = false
