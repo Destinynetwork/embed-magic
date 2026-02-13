@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { publishEventToHub, unpublishEventFromHub } from "@/lib/events-hub";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -237,6 +238,23 @@ export function CreatorEventsManager({ profileId, filterType = "all" }: CreatorE
       creator_id: profileId,
     };
 
+    const hubPayload = {
+      source_event_id: "",
+      source_creator_id: profileId,
+      title: eventData.title,
+      description: eventData.description || undefined,
+      thumbnail_url: eventData.thumbnail_url || undefined,
+      event_type: eventData.is_virtual ? "virtual" as const : "live" as const,
+      category: "embed",
+      location: eventData.location || undefined,
+      start_date: eventData.start_date,
+      end_date: eventData.end_date || undefined,
+      is_free: adultPrice === 0,
+      ticket_price_zar: adultPrice,
+      max_attendees: eventData.max_attendees,
+      status: "upcoming" as const,
+    };
+
     if (editingEvent) {
       const { error } = await supabase
         .from('creator_events')
@@ -248,19 +266,25 @@ export function CreatorEventsManager({ profileId, filterType = "all" }: CreatorE
         console.error(error);
       } else {
         toast.success('Event updated successfully');
+        publishEventToHub({ ...hubPayload, source_event_id: editingEvent.id }).catch(console.error);
         setShowCreateModal(false);
         loadEvents();
       }
     } else {
-      const { error } = await supabase
+      const { data: inserted, error } = await supabase
         .from('creator_events')
-        .insert(eventData);
+        .insert(eventData)
+        .select('id')
+        .single();
 
       if (error) {
         toast.error('Failed to create event');
         console.error(error);
       } else {
         toast.success('Event created successfully');
+        if (inserted) {
+          publishEventToHub({ ...hubPayload, source_event_id: inserted.id }).catch(console.error);
+        }
         setShowCreateModal(false);
         loadEvents();
       }
@@ -281,6 +305,7 @@ export function CreatorEventsManager({ profileId, filterType = "all" }: CreatorE
       toast.error('Failed to delete event');
     } else {
       toast.success('Event deleted');
+      unpublishEventFromHub(eventId).catch(console.error);
       loadEvents();
     }
   };
