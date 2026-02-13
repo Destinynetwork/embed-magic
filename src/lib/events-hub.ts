@@ -1,5 +1,4 @@
-const EVENTS_HUB_URL = import.meta.env.VITE_EVENTS_HUB_URL;
-const EVENTS_HUB_API_KEY = import.meta.env.VITE_EVENTS_HUB_API_KEY;
+import { supabase } from "@/integrations/supabase/client";
 
 export interface EventPublishPayload {
   source_event_id: string;
@@ -28,28 +27,27 @@ export interface EventPublishPayload {
 }
 
 export async function publishEventToHub(payload: EventPublishPayload): Promise<{ success: boolean; error?: string }> {
-  if (!EVENTS_HUB_URL || !EVENTS_HUB_API_KEY) {
-    console.warn("Events Hub not configured — skipping publish");
-    return { success: false, error: "Events Hub not configured" };
+  try {
+    const { data, error } = await supabase.functions.invoke("events-hub-proxy", {
+      body: { action: "publish", payload },
+    });
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (err: any) {
+    console.warn("Events Hub publish failed:", err);
+    return { success: false, error: err.message };
   }
-  const response = await fetch(`${EVENTS_HUB_URL}/publish-event`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "x-api-key": EVENTS_HUB_API_KEY },
-    body: JSON.stringify(payload),
-  });
-  const data = await response.json();
-  if (!response.ok) return { success: false, error: data.error || "Unknown error" };
-  return { success: true };
 }
 
 export async function unpublishEventFromHub(sourceEventId: string): Promise<{ success: boolean; error?: string }> {
-  if (!EVENTS_HUB_URL || !EVENTS_HUB_API_KEY) return { success: false, error: "Events Hub not configured" };
-  const response = await fetch(`${EVENTS_HUB_URL}/publish-event`, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json", "x-api-key": EVENTS_HUB_API_KEY },
-    body: JSON.stringify({ source_event_id: sourceEventId }),
-  });
-  const data = await response.json();
-  if (!response.ok) return { success: false, error: data.error };
-  return { success: true };
+  try {
+    const { data, error } = await supabase.functions.invoke("events-hub-proxy", {
+      body: { action: "unpublish", payload: { source_event_id: sourceEventId } },
+    });
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (err: any) {
+    console.warn("Events Hub unpublish failed:", err);
+    return { success: false, error: err.message };
+  }
 }
